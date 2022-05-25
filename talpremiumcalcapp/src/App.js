@@ -59,12 +59,43 @@ const options = [
   setFormValues({...formUpdatedValues})
  };
 
+ const GetAge = (dateString) =>
+ {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+  {
+      age--;
+  }
+  return age;
+ }
+ const handleDOBChange = e => {
+   console.log(e.target.value);
+  setFormValues({ userDOB : e.target.value});
+  console.log("formValues.userDOB")
+  console.log(formValues.userDOB);
+  var age = GetAge(formValues.userDOB.toString())
+      console.log(age);
+  setFormValues({ ...formValues,userAge : age});
+ }
   const handleChange = e => {
     const{name,value} = e.target
     setFormValues({
       ...formValues,
       [name]: value,
-    })};
+    })
+    if(e.target.name == "userDOB")
+    {
+      console.log("I am in DOB")
+      console.log(formValues.userDOB)
+      var age = GetAge(formValues.userDOB)
+      console.log(age);
+      /*setFormValues({
+        ...formValues,userAge : age}); */
+    } 
+  };
 
     const clearValues = (e) => {
       setFormValues(initialValues);
@@ -83,13 +114,16 @@ const options = [
         console.log("I am in If")
       const filterObj = occupationRatingMap.find((e) => e.Rating == formValues.userProfession);
       const calcValue = (formValues.sumInsured*filterObj.Factor*formValues.userAge)/1000*12;
+      console.log(calcValue);
+      console.log("calcValue");
       setFormValues({monthlyPremium:calcValue})
       }
       else
       {
+        console.log(formErrors);
         console.log("I am not in If");
       }
-      keepData(formValues);
+      //keepData(formValues);
 
     };
 
@@ -106,14 +140,19 @@ const options = [
       {
         errors.userName ="UserName is required";
       }
-      if(!formValues.userAge)
-      {
-        errors.userAge ="Age is required";
-      }
       
       if(!formValues.sumInsured)
       {
         errors.sumInsured ="Sum insured is required";
+      }
+      if(!formValues.userDOB)
+      {
+        errors.userDOB ="Date of birth is required";
+      }
+
+      if(!formValues.userProfession)
+      {
+        errors.userProfession ="Occupation is required";
       }
       return errors;
     };
@@ -134,15 +173,16 @@ const options = [
     </tr>
     <br/>
     <tr>
-    <td><label for="userAge">Age : &nbsp; &nbsp;  </label></td> <td> 
-    <input name="userAge" id="userAge" type="text" value={formValues.userAge} onChange={handleChange} /></td> 
-    <td class="error-message" > &nbsp; &nbsp;{formErrors.userAge}</td>
+    <td><label for="userDOB">Date of Birth : &nbsp; &nbsp;  </label></td> <td>
+    <input name='userDOB' type='date' value={formValues.userDOB} onChange={handleDOBChange} /></td>
+    <td class="error-message" > &nbsp; &nbsp;{formErrors.userDOB}</td>
     </tr>
     <br/>
     <tr>
-    <td><label for="userDOB">Date of Birth : &nbsp; &nbsp;  </label></td> <td>
-    <input name='userDOB' type='date' value={formValues.userDOB} onChange={handleChange} /></td>
+    <td><label for="userAge">Age : &nbsp; &nbsp;  </label></td> <td> 
+    <input name="userAge" id="userAge" type="text" value={formValues.userAge} readonly/></td> 
     </tr>
+    
     <br/>
     <tr>
     <td><label for="userOccupation">Occupation : &nbsp; &nbsp;  </label></td> <td>
@@ -151,7 +191,9 @@ const options = [
               <option value={option.value}>{option.label}</option>
             ))}
           </select>
-      </td>    </tr>  
+      </td>  
+      <td class="error-message" > &nbsp; &nbsp;{formErrors.userProfession}</td>
+        </tr>  
       <br/>
       <tr>
     <td><label for="sumInsured">Death – Sum Insured:  &nbsp; &nbsp;  </label></td> <td>
