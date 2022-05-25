@@ -72,13 +72,13 @@ const options = [
   return age;
  }
  const handleDOBChange = e => {
-   console.log(e.target.value);
-  setFormValues({ userDOB : e.target.value});
-  console.log("formValues.userDOB")
-  console.log(formValues.userDOB);
-  var age = GetAge(formValues.userDOB.toString())
-      console.log(age);
-  setFormValues({ ...formValues,userAge : age});
+  var age = GetAge(e.target.value)
+  const{name,value} = e.target
+  setFormValues({
+    ...formValues,
+    [name]: value,"userAge": age
+
+  })
  }
   const handleChange = e => {
     const{name,value} = e.target
@@ -86,22 +86,13 @@ const options = [
       ...formValues,
       [name]: value,
     })
-    if(e.target.name == "userDOB")
-    {
-      console.log("I am in DOB")
-      console.log(formValues.userDOB)
-      var age = GetAge(formValues.userDOB)
-      console.log(age);
-      /*setFormValues({
-        ...formValues,userAge : age}); */
-    } 
   };
 
     const clearValues = (e) => {
       setFormValues(initialValues);
     };
     const handleSubmit = (e) => {
-      //e.preventDefault();
+      e.preventDefault();
       console.log("Form values");
       console.log(formValues);
       setFormErrors(validate(formValues));
