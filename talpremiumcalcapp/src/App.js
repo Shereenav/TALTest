@@ -4,10 +4,11 @@ import React, { useState,useDeferredValue, useEffect } from "react"
 
 function App() {
 
-  const initialValues = {userName:"",userAge:"",monthlyPremium:"",userDOB:"",userProfession:"",sumInsured:""};
+  const initialValues = {userName:"",userAge:"",userDOB:"",userProfession:"Cleaner",sumInsured:""};
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit,setIsSubmit]=useState(false);
+  const [monthlyPremium,setMonthlyPremium]=useState("");
   
 const options = [
   {
@@ -92,16 +93,19 @@ const options = [
       ...formValues,
       [name]: value,
     })
+    //setFormErrors(validate(formValues));
   };
 
     const clearValues = (e) => {
       setFormValues(initialValues);
+      setMonthlyPremium("");
     };
     const handleSubmit = (e) => {
       e.preventDefault();
-      setFormErrors(validate(formValues));
+      var errorList = validate(formValues);
+      setFormErrors(errorList);
       setIsSubmit(true);
-      if (Object.keys(formErrors).length === 0 )
+      if (Object.keys(errorList).length === 0 )
       {
       console.log("I am in If")
       const filterObj1 = options.find((e) => e.value == formValues.userProfession);
@@ -109,41 +113,37 @@ const options = [
       const filterObj = occupationRatingMap.find((e) => e.Rating == filterObj1.Rating);
       console.log(filterObj.Factor);
       const calcValue = (formValues.sumInsured*filterObj.Factor*formValues.userAge)/1000*12;
-      setFormValues({monthlyPremium:calcValue})
+      setMonthlyPremium(calcValue)
       }
       else
       {
-        console.log(formErrors);
         console.log("I am not in If");
       }
-      //keepData(formValues);
+      keepData(formValues);
 
     };
 
     useEffect(()=>{
-      console.log(formErrors);
       if (Object.keys(formErrors).length === 0 && isSubmit)
       {
-        console.log(formValues);
+        //console.log(formValues);
       }
-    },[formErrors]);
+    },[formErrors]); 
     const validate = (formValues)=>{
       const errors = {}
-      if(!formValues.userName)
+      if(formValues.userName ==="" )
       {
         errors.userName ="UserName is required";
       }
-      
-      if(!formValues.sumInsured)
+      if(formValues.sumInsured === "")
       {
         errors.sumInsured ="Sum insured is required";
       }
-      if(!formValues.userDOB)
+      if(formValues.userDOB === "")
       {
         errors.userDOB ="Date of birth is required";
       }
-
-      if(!formValues.userProfession)
+      if(formValues.userProfession ==="")
       {
         errors.userProfession ="Occupation is required";
       }
@@ -196,7 +196,7 @@ const options = [
     <br/>
     <tr>
     <td><label for="userInsuranceAmount"><b>Your monthly premium:  &nbsp; &nbsp;  </b></label></td> <td>
-    <b><label for="monthlyPremium">{formValues.monthlyPremium}</label></b></td>
+    <b><label for="monthlyPremium">{monthlyPremium}</label></b></td>
     </tr>
     <br></br>
     <tr> 
