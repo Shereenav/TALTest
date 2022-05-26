@@ -161,19 +161,19 @@ const options = [
     <br/>
     <tr>
     <td><label for="userName">User Name : &nbsp; &nbsp; </label></td>
-    <td><input name="userName" id="userName" type="text"  value={formValues.userName} onChange={handleChange}/></td>
+    <td><input name="userName" id="userName" type="text"  value={formValues.userName} onChange={handleChange} aria-label="username-input"/ ></td>
     <td class="error-message" >&nbsp; &nbsp;{formErrors.userName}</td>
     </tr>
     <br/>
     <tr>
     <td><label for="userDOB">Date of Birth : &nbsp; &nbsp;  </label></td> <td>
-    <input name='userDOB' type='date' value={formValues.userDOB} onChange={handleDOBChange} /></td>
+    <input name='userDOB' type='date' value={formValues.userDOB} onChange={handleDOBChange} aria-label="userDOB-input" /></td>
     <td class="error-message" > &nbsp; &nbsp;{formErrors.userDOB}</td>
     </tr>
     <br/>
     <tr>
     <td><label for="userAge">Age : &nbsp; &nbsp;  </label></td> <td> 
-    <input name="userAge" id="userAge" type="text" value={formValues.userAge} readonly/></td> 
+    <input name="userAge" id="userAge" type="text" value={formValues.userAge} readonly aria-label="userAge-input"/></td> 
     </tr>
     
     <br/>
@@ -190,7 +190,7 @@ const options = [
       <br/>
       <tr>
     <td><label for="sumInsured">Death – Sum Insured:  &nbsp; &nbsp;  </label></td> <td>
-    <input name='sumInsured' type='text' value={formValues.sumInsured} onChange={handleChange} /></td>
+    <input name='sumInsured' type='text' value={formValues.sumInsured} onChange={handleChange}  aria-label="usersumInsured-input"/></td>
     <td class="error-message"  >&nbsp; &nbsp;{formErrors.sumInsured}</td>
     </tr>
     <br/>
@@ -200,7 +200,7 @@ const options = [
     </tr>
     <br></br>
     <tr> 
-    <td align='center'><input type="button" value="Calculate monthly premium"  onClick={handleSubmit} /></td> 
+    <td align='center'><input type="button" value="Calculate monthly premium"  onClick={handleSubmit} id="calcButton" /></td> 
     <td align='center'><input type="button" value="Reset"  onClick={clearValues}  id="resetButton"/></td> 
     </tr> 
     </table>
