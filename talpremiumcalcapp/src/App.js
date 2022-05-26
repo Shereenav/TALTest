@@ -12,27 +12,33 @@ function App() {
 const options = [
   {
   label : "Cleaner",
-  value : "Light Manual"
+  value : "Light Manual1",
+  Rating : "Light Manual"
   },
   {
   label : "Doctor",
-  value : "Professional"
+  value : "Professional",
+  Rating : "Professional"
   },
   {
   label : "Author",
-  value : "White Collar"
+  value : "White Collar",
+  Rating : "White Collar"
   },
   {
   label : "Farmer",
-  value : "Heavy Manual"
+  value : "Heavy Manual1",
+  Rating : "Heavy Manual"
   },
   {
   label : "Mechanic",
-  value : "Heavy Manual"
+  value : "Heavy Manual2",
+  Rating : "Heavy Manual"
   },
   {
   label : "Florist",
-  value : "Light Manual"
+  value : "Light Manual2",
+  Rating : "Light Manual"
   },
   ];
 
@@ -93,20 +99,16 @@ const options = [
     };
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log("Form values");
-      console.log(formValues);
       setFormErrors(validate(formValues));
       setIsSubmit(true);
-      console.log("Form errors");
-      console.log(Object.keys(formErrors).length);
-      console.log(isSubmit);
       if (Object.keys(formErrors).length === 0 )
       {
-        console.log("I am in If")
-      const filterObj = occupationRatingMap.find((e) => e.Rating == formValues.userProfession);
+      console.log("I am in If")
+      const filterObj1 = options.find((e) => e.value == formValues.userProfession);
+      console.log(filterObj1.Rating);
+      const filterObj = occupationRatingMap.find((e) => e.Rating == filterObj1.Rating);
+      console.log(filterObj.Factor);
       const calcValue = (formValues.sumInsured*filterObj.Factor*formValues.userAge)/1000*12;
-      console.log(calcValue);
-      console.log("calcValue");
       setFormValues({monthlyPremium:calcValue})
       }
       else
