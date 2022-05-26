@@ -100,15 +100,18 @@ const options = [
       setFormValues(initialValues);
       setMonthlyPremium("");
     };
-    const handleSubmit = (e) => {
-      e.preventDefault();
+    const CalculatePremium = (e) => {
+      var temp = e.target.value;
+    setFormValues({
+      ...formValues,
+      "userProfession": temp,
+    })
       var errorList = validate(formValues);
       setFormErrors(errorList);
       setIsSubmit(true);
       if (Object.keys(errorList).length === 0 )
       {
-      console.log("I am in If")
-      const filterObj1 = options.find((e) => e.value == formValues.userProfession);
+      const filterObj1 = options.find((e) => e.value == temp);
       console.log(filterObj1.Rating);
       const filterObj = occupationRatingMap.find((e) => e.Rating == filterObj1.Rating);
       console.log(filterObj.Factor);
@@ -117,9 +120,9 @@ const options = [
       }
       else
       {
-        console.log("I am not in If");
+        setMonthlyPremium("");
       }
-      keepData(formValues);
+      //keepData(formValues);
 
     };
 
@@ -152,11 +155,11 @@ const options = [
 
   return (
     <div>
-       <pre>{JSON.stringify(formValues,undefined,2)}</pre>
+      
      <form >
     <table align="center" cellpadding="0" cellspacing="0" border="0"> 
     <tr> 
-    <td colspan="2"><label for="Calculate Premium"><b>Calculate Premium</b></label></td>
+    <td colspan="2"><label for="Calculate Premium"><b>Calculate Monthly Premium</b></label></td>
     </tr>
     <br/>
     <tr>
@@ -177,9 +180,16 @@ const options = [
     </tr>
     
     <br/>
+    
+      <tr>
+    <td><label for="sumInsured">Death – Sum Insured:  &nbsp; &nbsp;  </label></td> <td>
+    <input name='sumInsured' type='text' value={formValues.sumInsured} onChange={handleChange}  aria-label="usersumInsured-input"/></td>
+    <td class="error-message"  >&nbsp; &nbsp;{formErrors.sumInsured}</td>
+    </tr>
+    <br/>
     <tr>
     <td><label for="userOccupation">Occupation : &nbsp; &nbsp;  </label></td> <td>
-    <select name="userProfession" onChange={handleChange} value={formValues.userProfession} >
+    <select name="userProfession" onChange={CalculatePremium} value={formValues.userProfession} aria-label="userProfession-input" >
             {options.map((option) => (
               <option value={option.value}>{option.label}</option>
             ))}
@@ -188,21 +198,11 @@ const options = [
       <td class="error-message" > &nbsp; &nbsp;{formErrors.userProfession}</td>
         </tr>  
       <br/>
-      <tr>
-    <td><label for="sumInsured">Death – Sum Insured:  &nbsp; &nbsp;  </label></td> <td>
-    <input name='sumInsured' type='text' value={formValues.sumInsured} onChange={handleChange}  aria-label="usersumInsured-input"/></td>
-    <td class="error-message"  >&nbsp; &nbsp;{formErrors.sumInsured}</td>
-    </tr>
-    <br/>
     <tr>
     <td><label for="userInsuranceAmount"><b>Your monthly premium:  &nbsp; &nbsp;  </b></label></td> <td>
-    <b><label for="monthlyPremium">{monthlyPremium}</label></b></td>
+    <b><label for="monthlyPremium"  aria-label="monthlyPremium-result">{monthlyPremium}</label></b></td>
     </tr>
-    <br></br>
-    <tr> 
-    <td align='center'><input type="button" value="Calculate monthly premium"  onClick={handleSubmit} id="calcButton" /></td> 
-    <td align='center'><input type="button" value="Reset"  onClick={clearValues}  id="resetButton"/></td> 
-    </tr> 
+    
     </table>
   </form>
     </div>

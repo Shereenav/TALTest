@@ -14,52 +14,83 @@ import { fireEvent, cleanup} from '@testing-library/react';
 import Premiumcalc from './PremiumCalc';
 
 describe("Premium Calc Component testing",()=>{
-    it ("rendered User Name Button" , ()=>{
+    it ("rendered User Name text box" , ()=>{
         const utils = render(<Premiumcalc />)
         const input = utils.getByLabelText('username-input')
         fireEvent.change(input, {target: {value: '23'}})
         expect(input.value).toBe('23')
     });
 
-    /*it ("rendered User DOB Button" , ()=>{
+    it ("rendered User DOB date control" , ()=>{
         const utils = render(<Premiumcalc />)
         const input = utils.getByLabelText('userDOB-input')
-        fireEvent.change(input, {target: {value: '20/05/1981'}})
-        expect(input.value).toBe('20/05/1981')
-    }); */
+        fireEvent.change(input, {target: {value: '1981-05-12'}})
+        expect(input.value).toBe('1981-05-12')
+    }); 
 
-    /*it ("rendered User DOB Button" , ()=>{
+    it ("rendered User Age population" , ()=>{
         const utils = render(<Premiumcalc />)
-        const input = utils.getByLabelText('userDOB-input')
-        fireEvent.change(input, {target: {value: '20/05/1981'}})
-        expect(input.value).toBe('20/05/1981')
-    });*/
+        const inputAge = utils.getByLabelText('userAge-input')
+        const inputDOB = utils.getByLabelText('userDOB-input')
+        fireEvent.change(inputDOB, {target: {value: '1981-05-12'}})
+        expect(inputAge.value).toBe('41')
+    }); 
 
-    it ("rendered User DOB Button" , ()=>{
+    it ("rendered Sum insured text box" , ()=>{
         const utils = render(<Premiumcalc />)
         const input = utils.getByLabelText('usersumInsured-input')
         fireEvent.change(input, {target: {value: '40000'}})
         expect(input.value).toBe('40000')
     });
 
-   /* test ("rendered Premium Calculate Button" , ()=>{
+    it ("rendered User Profession text box" , ()=>{
+        const utils = render(<Premiumcalc />)
+        const input = utils.getByLabelText('userProfession-input')
+        fireEvent.change(input, {target: {value: 'Professional'}})
+        expect(input.value).toBe('Professional')
+    });
+
+    /*test ("rendered Premium Calculate Button" , ()=>{
         const  { getByText } = render(<Premiumcalc/>);
-        const calcButton = getByText("Calculate monthly premium");
-        calcButton.s
-        expect(calcButton).getById("calcButton").toBeTruthy();
+        const calcButton = getByText("Reset");
+        expect(calcButton).toBeTruthy();
     }); */
 
-   /* test ("rendered User name Label" , ()=>{
+    it ("rendered Premium Calculation" , ()=>{
+        const utils = render(<Premiumcalc />)
+        const inputName = utils.getByLabelText('username-input')
+        fireEvent.change(inputName, {target: {value: 'Shereena'}})
+        
+        const inputDOB = utils.getByLabelText('userDOB-input')
+        fireEvent.change(inputDOB, {target: {value: '1981-05-12'}})
+        
+        const inputAge = utils.getByLabelText('userAge-input')
+        fireEvent.change(inputAge, {target: {value: '40'}})
+        
+        const inputSumInsured = utils.getByLabelText('usersumInsured-input')
+        fireEvent.change(inputSumInsured, {target: {value: '300000'}})
+        
+        const inpuProfession = utils.getByLabelText('userProfession-input')
+        fireEvent.change(inpuProfession, {target: {value: 'Professional'}})
+        
+        //const submitButton = utils.getByLabelText('calcButton')
+        const calcMonthlyPremium = utils.getByLabelText('monthlyPremium-result')
+        //console.log(calcMonthlyPremium)
+        //fireEvent.click(submitButton)
+        expect(calcMonthlyPremium.textContent).toBe('147600') //Looks like it is not realistic value
+    });
+    /*
+    test ("rendered User name Label" , ()=>{
         const  { getByText } = render(<Premiumcalc/>);
         const userNameLabel = getByText("User Name:");
         expect(userNameLabel).toBeInTheDocument();
-    }); */
-
-    /*it ("rendered Premium Calculate Button" , ()=>{
-        const  dom = render(<Premiumcalc/>);
-        const resetButton = getById(dom.container, 'resetButton');
+    }); 
+   
+    it ("rendered Premium Calculate Button" , ()=>{
+        const  { getByText } = render(<Premiumcalc/>);
+        const resetButton = getByText("Reset");
         expect(resetButton).toBeTruthy();
-    });*/
+    }); */
 
     it('should display the correct number of options', () => {
         const  { getAllByRole } = render(<Premiumcalc/>);
